@@ -1,0 +1,18 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ProductGql {
+  category: String!
+  description: String!
+  id: String!
+  image: String!
+  inStock: Boolean!
+  name: String!
+  originalPrice: Float
+  price: Float!
+}
+
+type Query {
+  products(id: String!): ProductGql!
+}
