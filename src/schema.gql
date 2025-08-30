@@ -2,6 +2,36 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CartGql {
+  createdAt: DateTime!
+  id: String!
+  items: [CartItemGql!]!
+  total: Float!
+  updatedAt: DateTime!
+}
+
+type CartItemGql {
+  image: String!
+  name: String!
+  price: Float!
+  productId: String!
+  quantity: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  addItemToCart(cartId: String!, productId: String!, quantity: Float! = 1): CartGql!
+  clearCart(cartId: String!): CartGql!
+  createCart: CartGql!
+  deleteCart(cartId: String!): Boolean!
+  removeItemFromCart(cartId: String!, productId: String!): CartGql!
+  updateCartItem(cartId: String!, productId: String!, quantity: Float!): CartGql!
+}
+
 type ProductGql {
   category: String!
   description: String!
@@ -14,5 +44,6 @@ type ProductGql {
 }
 
 type Query {
+  cart(id: String!): CartGql!
   products(id: String!): ProductGql!
 }

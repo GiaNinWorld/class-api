@@ -9,6 +9,7 @@ import { join } from 'path'
 import { ProductController } from './controller/product.controller'
 import { CartController } from './controller/cart.controller'
 import { CartService } from './service/CartService'
+import { CartResolver } from './resolver/cart.resolver'
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { CartService } from './service/CartService'
     }),
   ],
   controllers: [AppController, ProductController, CartController],
-  providers: [AppService, ProductService, CartService, ProductResolver],
+  providers: [AppService, ProductService, CartService, ProductResolver, CartResolver],
 })
 export class AppModule {}
