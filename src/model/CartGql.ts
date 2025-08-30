@@ -35,4 +35,3 @@ export class CartGql {
   @Field()
   updatedAt: Date
 }
-
