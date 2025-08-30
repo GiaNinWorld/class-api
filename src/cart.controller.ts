@@ -27,7 +27,7 @@ export class CartController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   getCart(@Param('id') cartId: string): Cart {
-    return this.cartService.getCart(cartId)
+    return this.cartService.findCartById(cartId)
   }
 
   @Post(':id/items')

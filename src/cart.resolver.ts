@@ -4,11 +4,13 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 
 @Resolver(() => CartGql)
 export class CartResolver {
-  constructor(private readonly cartService: CartService) {}
+  constructor(
+    private readonly cartService: CartService
+  ) {}
 
   @Query(() => CartGql)
   cart(@Args('id', { type: () => String }) id: string) {
-    return this.cartService.getCart(id)
+    return this.cartService.findCartById(id)
   }
 
   @Mutation(() => CartGql)
