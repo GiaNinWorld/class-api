@@ -2,39 +2,44 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { Cart, CartItem } from '../model/Cart'
 import { Product } from '../model/Product'
 import { products } from '../data/Products'
+import { carts } from 'src/data/Carts'
+import { ProductService } from './ProductService'
 
 @Injectable()
 export class CartService {
-  private carts: Map<string, Cart> = new Map()
+  constructor(
+    private readonly productService: ProductService
+  ) {}
 
   createCart(): Cart {
-    const cartId = this.generateCartId()
     const cart: Cart = {
-      id: cartId,
+      id: this.generateCartId(),
       items: [],
       total: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
     }
 
-    this.carts.set(cartId, cart)
+    carts.push(cart)
     return cart
   }
 
-  getCart(cartId: string): Cart {
-    const cart = this.carts.get(cartId)
+  findCartById(id: string): Cart {
+    const cart = carts.find(p => p.id === id);
+
     if (!cart) {
-      throw new NotFoundException('Carrinho não encontrado')
+      throw new NotFoundException(`Carrinho com ID ${id} não encontrado`);
     }
-    return cart
+
+    return cart;
   }
 
   addItemToCart(cartId: string, productId: string, quantity: number = 1): Cart {
-    const cart = this.getCart(cartId)
-    const product = this.findProduct(productId)
+    const cart = this.findCartById(cartId)
+    const product = this.productService.findProductById(productId)
 
     if (quantity <= 0) {
-      throw new BadRequestException('Quantidade deve ser maior que zero')
+      throw new BadRequestException('Quantidade do produto deve ser maior que zero')
     }
 
     const existingItemIndex = cart.items.findIndex(item => item.productId === productId)
@@ -49,21 +54,21 @@ export class CartService {
         name: product.name,
         image: product.image,
       }
+
       cart.items.push(newItem)
     }
 
     this.updateCartTotal(cart)
     cart.updatedAt = new Date()
-    this.carts.set(cartId, cart)
 
     return cart
   }
 
   updateCartItem(cartId: string, productId: string, quantity: number): Cart {
-    const cart = this.getCart(cartId)
+    const cart = this.findCartById(cartId)
 
     if (quantity <= 0) {
-      throw new BadRequestException('Quantidade deve ser maior que zero')
+      throw new BadRequestException('Quantidade do produto deve ser maior que zero')
     }
 
     const itemIndex = cart.items.findIndex(item => item.productId === productId)
@@ -74,13 +79,12 @@ export class CartService {
     cart.items[itemIndex].quantity = quantity
     this.updateCartTotal(cart)
     cart.updatedAt = new Date()
-    this.carts.set(cartId, cart)
 
     return cart
   }
 
   removeItemFromCart(cartId: string, productId: string): Cart {
-    const cart = this.getCart(cartId)
+    const cart = this.findCartById(cartId)
     
     const itemIndex = cart.items.findIndex(item => item.productId === productId)
     if (itemIndex === -1) {
@@ -90,42 +94,35 @@ export class CartService {
     cart.items.splice(itemIndex, 1)
     this.updateCartTotal(cart)
     cart.updatedAt = new Date()
-    this.carts.set(cartId, cart)
 
     return cart
   }
 
   clearCart(cartId: string): Cart {
-    const cart = this.getCart(cartId)
+    const cart = this.findCartById(cartId)
     
     cart.items = []
     cart.total = 0
     cart.updatedAt = new Date()
-    this.carts.set(cartId, cart)
 
     return cart
   }
 
   deleteCart(cartId: string): void {
-    const cart = this.carts.get(cartId)
+    const cart = this.findCartById(cartId)
+
     if (!cart) {
       throw new NotFoundException('Carrinho não encontrado')
     }
-    this.carts.delete(cartId)
-  }
 
-  private findProduct(productId: string): Product {
-    const product = products.find(p => p.id === productId)
-    if (!product) {
-      throw new NotFoundException('Produto não encontrado')
+    let cartIndex = carts.findIndex(cart => cart.id !== cartId)
+    if (cartIndex >= 0) {
+      carts.splice(cartIndex, 1)
     }
-    return product
   }
 
   private updateCartTotal(cart: Cart): void {
-    cart.total = cart.items.reduce((total, item) => {
-      return total + (item.price * item.quantity)
-    }, 0)
+    cart.total = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0)
   }
 
   private generateCartId(): string {
