@@ -1,27 +1,25 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { Product } from 'src/model/Product'
-import { products } from '../data/Products'
-import { ProductGql } from 'src/model/ProductGql'
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Product } from 'src/model/Product';
+import { products } from '../data/Products';
+import { ProductGql } from 'src/model/ProductGql';
 
 @Injectable()
 export class ProductService {
-  findProductById(id: string): Product {
-    const product = products.find(p => p.id === id)
+  private findRawById(id: string): Product {
+    const product = products.find(p => p.id === id);
 
     if (!product) {
-      throw new NotFoundException('Produto não encontrado')
+      throw new NotFoundException(`Produto com ID ${id} não encontrado`);
     }
 
-    return product
+    return product;
   }
 
-  findProductGqlById(id: string): ProductGql {
-    const product = products.find(p => p.id === id)
+  getProductById(id: string): Product {
+    return this.findRawById(id);
+  }
 
-    if (!product) {
-      throw new NotFoundException('Produto não encontrado')
-    }
-
-    return product
+  getProductGqlById(id: string): ProductGql {
+    return this.findRawById(id) as ProductGql;
   }
 }
