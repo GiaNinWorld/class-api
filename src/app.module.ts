@@ -6,6 +6,9 @@ import { ProductResolver } from './app.resolver'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo'
 import { join } from 'path'
+import { ProductController } from './product.controller'
+import { CartController } from './cart.controller'
+import { CartService } from './service/CartService'
 
 @Module({
   imports: [
@@ -15,7 +18,7 @@ import { join } from 'path'
       sortSchema: true,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService, ProductService, ProductResolver],
+  controllers: [AppController, ProductController, CartController],
+  providers: [AppService, ProductService, CartService, ProductResolver],
 })
 export class AppModule {}
