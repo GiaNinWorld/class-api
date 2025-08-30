@@ -11,15 +11,8 @@ import {
 } from '@nestjs/common'
 import { CartService } from './service/CartService'
 import { Cart } from './model/Cart'
-
-interface AddItemDto {
-  productId: string
-  quantity?: number
-}
-
-interface UpdateItemDto {
-  quantity: number
-}
+import { AddItemDto } from './dto/AddItemDto'
+import { UpdateItemDto } from './dto/UpdateItemDto'
 
 @Controller('cart')
 export class CartController {
