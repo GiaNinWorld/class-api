@@ -7,16 +7,10 @@ import { ProductService } from './service/ProductService'
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly productService: ProductService,
   ) {}
 
   @Get()
   getHealth(): string {
     return this.appService.getHealth()
-  }
-
-  @Get('product/:id')
-  getProductById(@Param('id') id: string): Product {
-    return this.productService.findProductById(id)
   }
 }
