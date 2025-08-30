@@ -6,6 +6,7 @@ import { products } from '../data/Products'
 @Injectable()
 export class CartService {
   private carts: Map<string, Cart> = new Map()
+  private nextCartId: number = 1
 
   createCart(): Cart {
     const cartId = this.generateCartId()
@@ -129,7 +130,9 @@ export class CartService {
   }
 
   private generateCartId(): string {
-    return `cart_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    const currentId = this.nextCartId.toString()
+    this.nextCartId++
+    return currentId
   }
 }
 
