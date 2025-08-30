@@ -15,11 +15,11 @@ export class ProductService {
     return product;
   }
 
-  getProductById(id: string): Product {
+  findProductById(id: string): Product {
     return this.findRawById(id);
   }
 
-  getProductGqlById(id: string): ProductGql {
-    return this.findRawById(id) as ProductGql;
+  findProductGqlById(id: string): ProductGql {
+    return this.findRawById(id);
   }
 }
