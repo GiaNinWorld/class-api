@@ -7,7 +7,6 @@ import { products } from '../data/Products'
 export class CartService {
   private carts: Map<string, Cart> = new Map()
 
-  // Criar um novo carrinho
   createCart(): Cart {
     const cartId = this.generateCartId()
     const cart: Cart = {
@@ -17,11 +16,11 @@ export class CartService {
       createdAt: new Date(),
       updatedAt: new Date(),
     }
+
     this.carts.set(cartId, cart)
     return cart
   }
 
-  // Obter carrinho por ID
   getCart(cartId: string): Cart {
     const cart = this.carts.get(cartId)
     if (!cart) {
@@ -30,7 +29,6 @@ export class CartService {
     return cart
   }
 
-  // Adicionar item ao carrinho (POST)
   addItemToCart(cartId: string, productId: string, quantity: number = 1): Cart {
     const cart = this.getCart(cartId)
     const product = this.findProduct(productId)
@@ -42,10 +40,8 @@ export class CartService {
     const existingItemIndex = cart.items.findIndex(item => item.productId === productId)
 
     if (existingItemIndex >= 0) {
-      // Atualizar quantidade do item existente
       cart.items[existingItemIndex].quantity += quantity
     } else {
-      // Adicionar novo item
       const newItem: CartItem = {
         productId: product.id,
         quantity,
@@ -63,7 +59,6 @@ export class CartService {
     return cart
   }
 
-  // Atualizar item do carrinho (PUT)
   updateCartItem(cartId: string, productId: string, quantity: number): Cart {
     const cart = this.getCart(cartId)
 
@@ -84,7 +79,6 @@ export class CartService {
     return cart
   }
 
-  // Remover item do carrinho (DELETE)
   removeItemFromCart(cartId: string, productId: string): Cart {
     const cart = this.getCart(cartId)
     
@@ -101,7 +95,6 @@ export class CartService {
     return cart
   }
 
-  // Limpar carrinho (DELETE)
   clearCart(cartId: string): Cart {
     const cart = this.getCart(cartId)
     
@@ -113,7 +106,6 @@ export class CartService {
     return cart
   }
 
-  // Deletar carrinho (DELETE)
   deleteCart(cartId: string): void {
     const cart = this.carts.get(cartId)
     if (!cart) {
@@ -122,7 +114,6 @@ export class CartService {
     this.carts.delete(cartId)
   }
 
-  // Métodos auxiliares
   private findProduct(productId: string): Product {
     const product = products.find(p => p.id === productId)
     if (!product) {
