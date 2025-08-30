@@ -9,10 +9,10 @@ import {
   HttpCode, 
   HttpStatus 
 } from '@nestjs/common'
-import { CartService } from './service/CartService'
-import { Cart } from './model/Cart'
-import { AddItemDto } from './dto/AddItemDto'
-import { UpdateItemDto } from './dto/UpdateItemDto'
+import { CartService } from '../service/CartService'
+import { Cart } from '../model/Cart'
+import { AddItemDto } from '../dto/AddItemDto'
+import { UpdateItemDto } from '../dto/UpdateItemDto'
 
 @Controller('cart')
 export class CartController {
