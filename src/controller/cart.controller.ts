@@ -28,14 +28,17 @@ export class CartController {
 
   @Put(':id/items/:productId')
   @HttpCode(HttpStatus.OK)
-  updateCartItem(@Param('id') cartId: string, @Param('productId') productId: string, @Body() updateItemDto: UpdateItemDto): Cart {
+  updateCartItem(
+    @Param('id') cartId: string,
+    @Param('productId') productId: string,
+    @Body() updateItemDto: UpdateItemDto,
+  ): Cart {
     return this.cartService.updateCartItem(cartId, productId, updateItemDto.quantity)
   }
 
   @Delete(':id/items/:productId')
   @HttpCode(HttpStatus.OK)
-  removeItemFromCart(@Param('id') cartId: string, @Param('productId') productId: string
-  ): Cart {
+  removeItemFromCart(@Param('id') cartId: string, @Param('productId') productId: string): Cart {
     return this.cartService.removeItemFromCart(cartId, productId)
   }
 
