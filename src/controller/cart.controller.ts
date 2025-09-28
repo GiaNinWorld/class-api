@@ -19,7 +19,7 @@ export class CartController {
     return this.cartService.findCartById(cartId)
   }
 
-  @Post(':id/items')
+  @Post(':id/add')
   addItemToCart(@Param('id') cartId: string, @Body() addItemDto: AddItemDto): Cart {
     return this.cartService.addItemToCart(cartId, addItemDto.productId, addItemDto.quantity || 1)
   }
