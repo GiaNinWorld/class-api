@@ -29,7 +29,10 @@ export class CartService {
       throw new NotFoundException(`Carrinho com ID ${id} não encontrado`)
     }
 
-    return cart
+    return {
+      ...cart,
+      itemsCount: cart.items.length,
+    }
   }
 
   addItemToCart(cartId: string, productId: string, quantity: number = 1): Cart {
