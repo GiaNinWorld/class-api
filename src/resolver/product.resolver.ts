@@ -10,6 +10,6 @@ export class ProductResolver {
 
   @Query(() => ProductGql)
   products(@Args('id', { type: () => String }) id: string) {
-    return this.productService.findProductGqlById(id)
+    return this.productService.findProductById(id)
   }
 }

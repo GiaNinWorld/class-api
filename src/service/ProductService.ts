@@ -5,21 +5,13 @@ import { ProductGql } from 'src/model/ProductGql';
 
 @Injectable()
 export class ProductService {
-  private findRawById(id: string): Product {
-    const product = products.find(p => p.id === id);
+  findProductById(id: string): Product | ProductGql {
+    const product = products.find(p => p.id === id)
 
     if (!product) {
       throw new NotFoundException(`Produto com ID ${id} não encontrado`);
     }
 
-    return product;
-  }
-
-  findProductById(id: string): Product {
-    return this.findRawById(id);
-  }
-
-  findProductGqlById(id: string): ProductGql {
-    return this.findRawById(id);
+    return product
   }
 }
