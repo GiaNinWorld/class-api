@@ -12,6 +12,7 @@ import { CartService } from './service/cart.service'
 import { CartResolver } from './resolver/cart.resolver'
 import { CacheModule } from '@nestjs/cache-manager'
 import { redisStore } from 'cache-manager-redis-store'
+import { CacheService } from './service/cache.service'
 
 @Module({
   imports: [
@@ -32,6 +33,6 @@ import { redisStore } from 'cache-manager-redis-store'
     }),
   ],
   controllers: [AppController, ProductController, CartController],
-  providers: [AppService, ProductService, CartService, ProductResolver, CartResolver],
+  providers: [AppService, ProductService, CartService, ProductResolver, CartResolver, CacheService],
 })
 export class AppModule {}
