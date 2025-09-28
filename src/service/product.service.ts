@@ -4,15 +4,27 @@ import { products } from '../data/Products'
 import { ProductGql } from 'src/model/ProductGql'
 import { PaginationDto } from 'src/dto/PaginationDto'
 import { PaginationResultDto } from 'src/dto/PaginationResultDto'
+import { CacheService } from './cache.service'
 
 @Injectable()
 export class ProductService {
-  findProductById(id: string): Product | ProductGql {
+  constructor(private readonly cacheService: CacheService) {}
+
+  async findProductById(id: string): Promise<Product | ProductGql> {
+    const cacheKey = `product:${id}`
+
+    const cachedProduct = await this.cacheService.get<Product | ProductGql>(cacheKey)
+    if (cachedProduct) {
+      return cachedProduct
+    }
+
     const product = products.find(p => p.id === id)
 
     if (!product) {
       throw new NotFoundException(`Produto com ID ${id} não encontrado`)
     }
+
+    await this.cacheService.set(cacheKey, product, 60)
 
     return product
   }
