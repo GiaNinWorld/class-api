@@ -13,4 +13,3 @@ export interface Cart {
   createdAt: Date
   updatedAt: Date
 }
-
