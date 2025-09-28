@@ -29,7 +29,7 @@ export class CartResolver {
   updateCartItem(
     @Args('cartId', { type: () => String }) cartId: string,
     @Args('productId', { type: () => String }) productId: string,
-    @Args('quantity', { type: () => Number }) quantity: number
+    @Args('quantity', { type: () => Number }) quantity: number,
   ) {
     return this.cartService.updateCartItem(cartId, productId, quantity)
   }
@@ -37,7 +37,7 @@ export class CartResolver {
   @Mutation(() => CartGql)
   removeItemFromCart(
     @Args('cartId', { type: () => String }) cartId: string,
-    @Args('productId', { type: () => String }) productId: string
+    @Args('productId', { type: () => String }) productId: string,
   ) {
     return this.cartService.removeItemFromCart(cartId, productId)
   }

@@ -23,10 +23,10 @@ export class CartService {
   }
 
   findCartById(id: string): Cart {
-    const cart = carts.find(p => p.id === id);
+    const cart = carts.find(p => p.id === id)
 
     if (!cart) {
-      throw new NotFoundException(`Carrinho com ID ${id} não encontrado`);
+      throw new NotFoundException(`Carrinho com ID ${id} não encontrado`)
     }
 
     return cart
