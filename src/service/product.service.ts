@@ -18,6 +18,8 @@ export class ProductService {
       return cachedProduct
     }
 
+    await this.sleep(5000)
+
     const product = products.find(p => p.id === id)
 
     if (!product) {
@@ -52,5 +54,9 @@ export class ProductService {
       hasNext,
       nextPage: hasNext ? offset + limit : null,
     }
+  }
+
+  private async sleep(timeInMs: number): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, timeInMs))
   }
 }
