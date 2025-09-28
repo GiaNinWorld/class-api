@@ -10,6 +10,8 @@ import { ProductController } from './controller/product.controller'
 import { CartController } from './controller/cart.controller'
 import { CartService } from './service/cart.service'
 import { CartResolver } from './resolver/cart.resolver'
+import { CacheModule } from '@nestjs/cache-manager'
+import { redisStore } from 'cache-manager-redis-store'
 
 @Module({
   imports: [
@@ -17,6 +19,16 @@ import { CartResolver } from './resolver/cart.resolver'
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
+    }),
+    CacheModule.register({
+      isGlobal: true,
+      store: async () =>
+        await redisStore({
+          socket: {
+            host: process.env.REDIS_HOST,
+            port: process.env.REDIS_PORT,
+          },
+        }),
     }),
   ],
   controllers: [AppController, ProductController, CartController],
