@@ -9,3 +9,12 @@ export class PaginationDto {
   @Min(0)
   offset?: number
 }
+
+export class PaginationResultDto {
+  data: any[]
+  total: number
+  limit: number
+  offset: number
+  hasNext: boolean
+  nextPage: number | null
+}

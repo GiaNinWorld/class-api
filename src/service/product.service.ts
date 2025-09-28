@@ -2,13 +2,16 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { Product } from 'src/model/Product'
 import { products } from '../data/Products'
 import { ProductGql } from 'src/model/ProductGql'
-import { PaginationDto } from 'src/dto/PaginationDto'
-import { PaginationResultDto } from 'src/dto/PaginationResultDto'
+import { PaginationDto, PaginationResultDto } from 'src/dto/PaginationDto'
 import { CacheService } from './cache.service'
+import { PaginationFactory } from '../util/pagination.factory'
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly cacheService: CacheService) {}
+  constructor(
+    private readonly cacheService: CacheService,
+    private readonly paginationFactory: PaginationFactory,
+  ) {}
 
   async findProductById(id: string): Promise<Product | ProductGql> {
     const cacheKey = `product:${id}`
@@ -32,28 +35,7 @@ export class ProductService {
   }
 
   getAllProducts(paginationDto: PaginationDto): PaginationResultDto {
-    const { limit = 10, offset = 0 } = paginationDto
-
-    const result: Product[] = []
-    for (let i = offset; i < offset + limit; i++) {
-      if (i >= products.length) {
-        break
-      }
-
-      result.push(products[i])
-    }
-
-    const total = products.length
-    const hasNext = total > offset + limit
-
-    return {
-      data: result,
-      total,
-      limit,
-      offset,
-      hasNext,
-      nextPage: hasNext ? offset + limit : null,
-    }
+    return this.paginationFactory.create(paginationDto, products)
   }
 
   private async sleep(timeInMs: number): Promise<void> {
