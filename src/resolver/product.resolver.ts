@@ -4,9 +4,7 @@ import { Resolver, Query, Args } from '@nestjs/graphql'
 
 @Resolver(() => ProductGql)
 export class ProductResolver {
-  constructor(
-    private readonly productService: ProductService
-  ) {}
+  constructor(private readonly productService: ProductService) {}
 
   @Query(() => ProductGql)
   products(@Args('id', { type: () => String }) id: string) {

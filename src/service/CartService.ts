@@ -7,9 +7,7 @@ import { ProductService } from './ProductService'
 export class CartService {
   private nextCartId: number = 1
 
-  constructor(
-    private readonly productService: ProductService
-  ) {}
+  constructor(private readonly productService: ProductService) {}
 
   createCart(): Cart {
     const cart: Cart = {
@@ -31,7 +29,7 @@ export class CartService {
       throw new NotFoundException(`Carrinho com ID ${id} não encontrado`);
     }
 
-    return cart;
+    return cart
   }
 
   addItemToCart(cartId: string, productId: string, quantity: number = 1): Cart {
@@ -85,7 +83,7 @@ export class CartService {
 
   removeItemFromCart(cartId: string, productId: string): Cart {
     const cart = this.findCartById(cartId)
-    
+
     const itemIndex = cart.items.findIndex(item => item.productId === productId)
     if (itemIndex === -1) {
       throw new NotFoundException('Item não encontrado no carrinho')
@@ -100,7 +98,7 @@ export class CartService {
 
   clearCart(cartId: string): Cart {
     const cart = this.findCartById(cartId)
-    
+
     cart.items = []
     cart.total = 0
     cart.updatedAt = new Date()
@@ -115,14 +113,14 @@ export class CartService {
       throw new NotFoundException('Carrinho não encontrado')
     }
 
-    let cartIndex = carts.findIndex(cart => cart.id !== cartId)
+    const cartIndex = carts.findIndex(cart => cart.id !== cartId)
     if (cartIndex >= 0) {
       carts.splice(cartIndex, 1)
     }
   }
 
   private updateCartTotal(cart: Cart): void {
-    cart.total = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0)
+    cart.total = cart.items.reduce((total, item) => total + item.price * item.quantity, 0)
   }
 
   private generateCartId(): string {
@@ -131,4 +129,3 @@ export class CartService {
     return currentId
   }
 }
-

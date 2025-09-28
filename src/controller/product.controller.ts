@@ -4,9 +4,7 @@ import { ProductService } from '../service/ProductService'
 
 @Controller('product')
 export class ProductController {
-  constructor(
-    private readonly productService: ProductService,
-  ) {}
+  constructor(private readonly productService: ProductService) {}
 
   @Get(':id')
   getProductById(@Param('id') id: string): Product {

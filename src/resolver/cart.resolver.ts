@@ -4,9 +4,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 
 @Resolver(() => CartGql)
 export class CartResolver {
-  constructor(
-    private readonly cartService: CartService
-  ) {}
+  constructor(private readonly cartService: CartService) {}
 
   @Query(() => CartGql)
   cart(@Args('id', { type: () => String }) id: string) {
@@ -22,7 +20,7 @@ export class CartResolver {
   addItemToCart(
     @Args('cartId', { type: () => String }) cartId: string,
     @Args('productId', { type: () => String }) productId: string,
-    @Args('quantity', { type: () => Number, defaultValue: 1 }) quantity: number
+    @Args('quantity', { type: () => Number, defaultValue: 1 }) quantity: number,
   ) {
     return this.cartService.addItemToCart(cartId, productId, quantity)
   }
@@ -55,4 +53,3 @@ export class CartResolver {
     return true
   }
 }
-
