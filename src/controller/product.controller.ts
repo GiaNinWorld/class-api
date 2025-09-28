@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { Product } from '../model/Product'
-import { ProductService } from '../service/ProductService'
+import { ProductService } from '../service/product.service'
 import { PaginationDto } from 'src/dto/PaginationDto'
 import { PaginationResultDto } from 'src/dto/PaginationResultDto'
 

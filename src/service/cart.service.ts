@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
 import { Cart, CartItem } from '../model/Cart'
 import { carts } from 'src/data/Carts'
-import { ProductService } from './ProductService'
+import { ProductService } from './product.service'
 
 @Injectable()
 export class CartService {
