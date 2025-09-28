@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpCode, HttpStatus } from '@nestjs/common'
 import { CartService } from '../service/cart.service'
-import { Cart } from '../model/Cart'
+import { Cart, CartItem } from '../model/Cart'
 import { AddItemDto } from '../dto/AddItemDto'
 import { UpdateItemDto } from '../dto/UpdateItemDto'
 
@@ -19,8 +19,14 @@ export class CartController {
     return this.cartService.findCartById(cartId)
   }
 
+  @Get(':id/add')
+  getCartItems(@Param('id') cartId: string): CartItem[] {
+    return this.cartService.findCartById(cartId).items
+  }
+
   @Post(':id/add')
-  addItemToCart(@Param('id') cartId: string, @Body() addItemDto: AddItemDto): Cart {
+  async addItemToCart(@Param('id') cartId: string, @Body() addItemDto: AddItemDto): Promise<Cart> {
+    await new Promise(resolve => setTimeout(resolve, 1500))
     return this.cartService.addItemToCart(cartId, addItemDto.productId, addItemDto.quantity || 1)
   }
 

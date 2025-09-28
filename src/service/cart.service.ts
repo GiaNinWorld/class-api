@@ -29,6 +29,8 @@ export class CartService {
       throw new NotFoundException(`Carrinho com ID ${id} não encontrado`)
     }
 
+    this.updateCartTotal(cart)
+
     return {
       ...cart,
       itemsCount: cart.items.length,
