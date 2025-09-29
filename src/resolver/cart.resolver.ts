@@ -1,5 +1,5 @@
 import { CartGql } from '../model/CartGql'
-import { CartService } from '../service/CartService'
+import { CartService } from '../service/cart.service'
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 
 @Resolver(() => CartGql)
