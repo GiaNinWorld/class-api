@@ -1,5 +1,7 @@
+import { Injectable } from '@nestjs/common'
 import { PaginationDto, PaginationResultDto } from 'src/dto/PaginationDto'
 
+@Injectable()
 export class PaginationFactory {
   create<T>(paginationDto: PaginationDto, dataSource: T[]): PaginationResultDto {
     const { limit = 10, offset = 0 } = paginationDto
