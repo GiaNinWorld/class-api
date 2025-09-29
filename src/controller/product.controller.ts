@@ -1,16 +1,15 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { Product } from '../model/Product'
-import { ProductService } from '../service/ProductService'
-import { PaginationDto } from 'src/dto/PaginationDto'
-import { PaginationResultDto } from 'src/dto/PaginationResultDto'
+import { ProductService } from '../service/product.service'
+import { PaginationDto, PaginationResultDto } from 'src/dto/PaginationDto'
 
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get(':id')
-  getProductById(@Param('id') id: string): Product {
-    return this.productService.findProductById(id)
+  async getProductById(@Param('id') id: string): Promise<Product> {
+    return await this.productService.findProductById(id)
   }
 
   @Get()

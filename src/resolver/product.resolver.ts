@@ -1,5 +1,5 @@
 import { ProductGql } from '../model/ProductGql'
-import { ProductService } from '../service/ProductService'
+import { ProductService } from '../service/product.service'
 import { Resolver, Query, Args } from '@nestjs/graphql'
 
 @Resolver(() => ProductGql)

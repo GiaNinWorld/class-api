@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
 import { Cart, CartItem } from '../model/Cart'
 import { carts } from 'src/data/Carts'
-import { ProductService } from './ProductService'
+import { ProductService } from './product.service'
 
 @Injectable()
 export class CartService {
@@ -37,9 +37,9 @@ export class CartService {
     }
   }
 
-  addItemToCart(cartId: string, productId: string, quantity: number = 1): Cart {
+  async addItemToCart(cartId: string, productId: string, quantity: number = 1): Promise<Cart> {
     const cart = this.findCartById(cartId)
-    const product = this.productService.findProductById(productId)
+    const product = await this.productService.findProductById(productId)
 
     if (quantity <= 0) {
       throw new BadRequestException('Quantidade do produto deve ser maior que zero')

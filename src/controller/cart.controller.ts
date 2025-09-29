@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpCode, HttpStatus } from '@nestjs/common'
-import { CartService } from '../service/CartService'
+import { CartService } from '../service/cart.service'
 import { Cart, CartItem } from '../model/Cart'
 import { AddItemDto } from '../dto/AddItemDto'
 import { UpdateItemDto } from '../dto/UpdateItemDto'
