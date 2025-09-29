@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
+import { AppController } from './controller/app.controller'
+import { AppService } from './service/app.service'
 import { ProductService } from './service/product.service'
 import { ProductResolver } from './resolver/product.resolver'
 import { GraphQLModule } from '@nestjs/graphql'
