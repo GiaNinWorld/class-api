@@ -9,6 +9,8 @@ import { CACHE_SERVICE } from 'src/constants/cache.constants'
 
 @Injectable()
 export class ProductService {
+  static readonly PAGINATION_FIELDS = ['id', 'name', 'price', 'category', 'inStock']
+
   constructor(
     @Inject(CACHE_SERVICE) private readonly cacheService: CacheService,
     private readonly paginationFactory: PaginationFactory,
@@ -36,7 +38,7 @@ export class ProductService {
   }
 
   getAllProducts(paginationDto: PaginationDto): PaginationResultDto {
-    return this.paginationFactory.create(paginationDto, products)
+    return this.paginationFactory.create(paginationDto, products, ProductService.PAGINATION_FIELDS)
   }
 
   private async sleep(timeInMs: number): Promise<void> {
