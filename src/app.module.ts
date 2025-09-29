@@ -10,11 +10,10 @@ import { ProductController } from './controller/product.controller'
 import { CartController } from './controller/cart.controller'
 import { CartService } from './service/cart.service'
 import { CartResolver } from './resolver/cart.resolver'
-import { CacheModule } from '@nestjs/cache-manager'
-import { redisStore } from 'cache-manager-redis-store'
-import { CacheService } from './service/cache.service'
 import { PaginationFactory } from './util/pagination.factory'
 import { ConfigModule } from '@nestjs/config'
+import { RedisCacheService } from './service/redis_cache.service'
+import { CACHE_SERVICE } from './constants/cache.constants'
 
 @Module({
   imports: [
@@ -24,18 +23,16 @@ import { ConfigModule } from '@nestjs/config'
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
-    CacheModule.register({
-      isGlobal: true,
-      store: async () =>
-        await redisStore({
-          socket: {
-            host: process.env.REDIS_HOST,
-            port: process.env.REDIS_PORT,
-          },
-        }),
-    }),
   ],
   controllers: [AppController, ProductController, CartController],
-  providers: [AppService, ProductService, CartService, ProductResolver, CartResolver, CacheService, PaginationFactory],
+  providers: [
+    AppService,
+    ProductService,
+    CartService,
+    ProductResolver,
+    CartResolver,
+    { provide: CACHE_SERVICE, useClass: RedisCacheService },
+    PaginationFactory,
+  ],
 })
 export class AppModule {}

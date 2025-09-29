@@ -1,15 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { Product } from 'src/model/Product'
 import { products } from '../data/Products'
 import { ProductGql } from 'src/model/ProductGql'
 import { PaginationDto, PaginationResultDto } from 'src/dto/PaginationDto'
-import { CacheService } from './cache.service'
+import { CacheService } from '../interfaces/cache.service.interface'
 import { PaginationFactory } from '../util/pagination.factory'
+import { CACHE_SERVICE } from 'src/constants/cache.constants'
 
 @Injectable()
 export class ProductService {
   constructor(
-    private readonly cacheService: CacheService,
+    @Inject(CACHE_SERVICE) private readonly cacheService: CacheService,
     private readonly paginationFactory: PaginationFactory,
   ) {}
 
