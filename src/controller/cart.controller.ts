@@ -10,17 +10,17 @@ export class CartController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async createCart(): Cart {
+  async createCart(): Promise<Cart> {
     return this.cartService.createCart()
   }
 
   @Get(':id')
-  async getCart(@Param('id') cartId: string): Cart {
+  async getCart(@Param('id') cartId: string): Promise<Cart> {
     return this.cartService.findCartById(cartId)
   }
 
   @Get(':id/add')
-  async getCartItems(@Param('id') cartId: string): CartItem[] {
+  async getCartItems(@Param('id') cartId: string): Promise<CartItem[]> {
     return this.cartService.findCartById(cartId).items
   }
 
@@ -35,23 +35,23 @@ export class CartController {
     @Param('id') cartId: string,
     @Param('productId') productId: string,
     @Body() updateItemDto: UpdateItemDto,
-  ): Cart {
+  ): Promise<Cart> {
     return this.cartService.updateCartItem(cartId, productId, updateItemDto.quantity)
   }
 
   @Delete(':id/items/:productId')
-  async removeItemFromCart(@Param('id') cartId: string, @Param('productId') productId: string): Cart {
+  async removeItemFromCart(@Param('id') cartId: string, @Param('productId') productId: string): Promise<Cart> {
     return this.cartService.removeItemFromCart(cartId, productId)
   }
 
   @Delete(':id/items')
-  async clearCart(@Param('id') cartId: string): Cart {
+  async clearCart(@Param('id') cartId: string): Promise<Cart> {
     return this.cartService.clearCart(cartId)
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteCart(@Param('id') cartId: string): void {
+  async deleteCart(@Param('id') cartId: string): Promise<void> {
     this.cartService.deleteCart(cartId)
   }
 }
