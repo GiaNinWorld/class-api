@@ -1,0 +1,25 @@
+config:
+  target: "http://127.0.0.1:3000"
+  phases:
+    - duration: 10
+      arrivalRate: 10
+    - duration: 30
+      arrivalRate: 50
+    - duration: 30
+      arrivalRate: 100
+  http:
+    timeout: 30
+    pool: 400
+    keepAlive: true
+
+scenarios:
+  - name: list_products
+    weight: 7
+    flow:
+      - get: { url: "/products" }
+
+  - name: get_by_id_random_valid
+    weight: 3
+    flow:
+      - get:
+          url: "/products/{{ $randomNumber(1, 8) }}"

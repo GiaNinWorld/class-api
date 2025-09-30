@@ -1,0 +1,19 @@
+config:
+  target: "http://127.0.0.1:3000"
+  phases:
+    - duration: 10
+      arrivalRate: 20
+    - duration: 30
+      arrivalRate: 100
+  http:
+    timeout: 30
+    pool: 400
+    keepAlive: true
+
+scenarios:
+  - name: cache_focus
+    flow:
+      - get: { url: "/products/1" }   # aquece
+      - loop:
+          - get: { url: "/products/1" }
+        count: 5
