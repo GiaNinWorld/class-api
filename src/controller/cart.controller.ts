@@ -3,10 +3,14 @@ import { CartService } from '../service/cart.service'
 import { Cart, CartItem } from '../model/Cart'
 import { AddItemDto } from '../dto/AddItemDto'
 import { UpdateItemDto } from '../dto/UpdateItemDto'
+import { TimeoutService } from '../service/timeout.service'
 
 @Controller('cart')
 export class CartController {
-  constructor(private readonly cartService: CartService) {}
+  constructor(
+    private readonly cartService: CartService,
+    private readonly timeoutService: TimeoutService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -26,8 +30,18 @@ export class CartController {
 
   @Post(':id/add')
   async addItemToCart(@Param('id') cartId: string, @Body() addItemDto: AddItemDto): Promise<Cart> {
+    // Simula processamento que pode demorar
     await new Promise(resolve => setTimeout(resolve, 1500))
-    return this.cartService.addItemToCart(cartId, addItemDto.productId, addItemDto.quantity || 1)
+    
+    // Implementa timeout de 3 segundos para o processamento do pedido
+    const TIMEOUT_MS = 3000
+    const timeoutMessage = 'Processamento do pedido excedeu o tempo limite de 3 segundos'
+    
+    return this.timeoutService.executeWithTimeout(
+      () => this.cartService.addItemToCart(cartId, addItemDto.productId, addItemDto.quantity || 1),
+      TIMEOUT_MS,
+      timeoutMessage
+    )
   }
 
   @Put(':id/items/:productId')

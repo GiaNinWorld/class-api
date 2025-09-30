@@ -16,4 +16,10 @@ export class ProductController {
   getAllProducts(@Query() paginationDto: PaginationDto): PaginationResultDto {
     return this.productService.getAllProducts(paginationDto)
   }
+
+  @Get('optimized')
+  async getOptimizedProducts(@Query() paginationDto: PaginationDto): Promise<PaginationResultDto> {
+    // Endpoint otimizado que retorna apenas campos essenciais
+    return await this.productService.getOptimizedProducts(paginationDto)
+  }
 }

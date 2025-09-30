@@ -14,6 +14,7 @@ import { PaginationFactory } from './util/pagination.factory'
 import { ConfigModule } from '@nestjs/config'
 import { RedisCacheService } from './service/redis_cache.service'
 import { CACHE_SERVICE } from './constants/cache.constants'
+import { TimeoutService } from './service/timeout.service'
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CACHE_SERVICE } from './constants/cache.constants'
     CartService,
     ProductResolver,
     CartResolver,
+    TimeoutService,
     { provide: CACHE_SERVICE, useClass: RedisCacheService },
     PaginationFactory,
   ],
